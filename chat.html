@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Chat Support</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
+        .chat-container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: white; }
+        .chat-box { height: 300px; overflow-y: auto; border-bottom: 1px solid #ccc; padding: 10px; text-align: left; }
+        .input-box { display: flex; margin-top: 10px; }
+        .input-box input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .input-box button { padding: 10px; background: blue; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        .user-message { color: black; font-weight: bold; }
+        .bot-message { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Live Chat Support</h1>
+    <div class="chat-container">
+        <div class="chat-box" id="chatBox"></div>
+        <div class="input-box">
+            <input type="text" id="message" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const botResponses = {
+            "hello|hi|hey": "Hello! How can I assist you today?",
+            "timing|hours|time|open|close": "Our gym is open from 6 AM to 10 PM every day.",
+            "membership|plan|subscribe": "We offer monthly, quarterly, and yearly memberships. Please visit our website for details.",
+            "trainer|coach|instructor": "Yes, we have certified trainers available. Would you like to book a session?",
+            "price|cost|fees|charge": "Our membership plans start at Rs.800 and vary according to subscription per month. Let us know if you need more details!",
+            "bye|goodbye|see you": "Goodbye! Have a great day!",
+            "thank you|thanks": "You're welcome! Feel free to ask anything else."
+        };
+
+        function sendMessage() {
+            const messageInput = document.getElementById("message");
+            const message = messageInput.value.trim().toLowerCase();
+            const chatBox = document.getElementById("chatBox");
+
+            if (message === "") return;
+
+            // Display user message
+            const userMessage = document.createElement("p");
+            userMessage.textContent = "You: " + message;
+            userMessage.className = "user-message";
+            chatBox.appendChild(userMessage);
+
+            // Chatbot reply with predefined responses
+            setTimeout(() => {
+                const botReply = document.createElement("p");
+                botReply.className = "bot-message";
+                
+                // Check if message matches predefined responses
+                let foundResponse = false;
+                for (let key in botResponses) {
+                    let regex = new RegExp(`\\b(${key})\\b`, "i"); // Match whole words
+                    if (regex.test(message)) {
+                        botReply.textContent = "Kunal: " + botResponses[key];
+                        foundResponse = true;
+                        break;
+                    }
+                }
+
+                // Default reply if no predefined response matches
+                if (!foundResponse) {
+                    botReply.textContent = "Kunal: Sorry, I don't understand. Can you please rephrase?";
+                }
+
+                chatBox.appendChild(botReply);
+                chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to latest message
+            }, 1000);
+
+            messageInput.value = "";
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
