@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Powerlifting Challenges</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #333;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #555;
+        }
+
+        .back-button {
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .video-section {
+            margin-top: 50px;
+        }
+
+        .video-container {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .video-container video {
+            width: 400px;
+            height: 300px;
+        }
+
+        .like-button, .share-button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .like-button {
+            background-color: red;
+            color: white;
+        }
+
+        .share-button {
+            background-color: blue;
+            color: white;
+        }
+
+        .progress-section, .comments-section {
+            margin-top: 30px;
+        }
+
+        .comment-box {
+            width: 50%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .dark-mode-toggle {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar with Back Button -->
+    <div class="navbar">
+        <a href="fit.html" class="back-button">⬅ Back</a>
+        <h2>Powerlifting Challenges</h2>
+    </div>
+
+    <p>Welcome to the powerlifting challenge page! Watch training videos, track progress, and engage with the community.</p>
+
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <section class="video-section">
+        <h2>Powerlifting Training Videos</h2>
+
+        <div class="video-container">
+            <video controls>
+                <source src="Video-402.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>Video 1: Squat</p>
+            <button class="like-button" onclick="likeVideo(this)">Like 👍</button>
+            <button class="share-button" onclick="shareVideo()">Share 📢</button>
+        </div>
+
+        <div class="video-container">
+            <video controls>
+                <source src="powerlifting_video2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>Video 2: Bench Press</p>
+            <button class="like-button" onclick="likeVideo(this)">Like 👍</button>
+            <button class="share-button" onclick="shareVideo()">Share 📢</button>
+        </div>
+
+        <div class="video-container">
+            <video controls>
+                <source src="deadlift.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>Video 3: Deadlift</p>
+            <button class="like-button" onclick="likeVideo(this)">Like 👍</button>
+            <button class="share-button" onclick="shareVideo()">Share 📢</button>
+        </div>
+    </section>
+
+    <section class="progress-section">
+        <h2>Track Your Progress</h2>
+        <input type="text" id="liftType" placeholder="Enter Lift Type (Squat, Bench, Deadlift)">
+        <input type="number" id="liftWeight" placeholder="Enter Weight (kg)">
+        <button onclick="logProgress()">Log Progress</button>
+        <h3>Progress Log</h3>
+        <ul id="progressLog"></ul>
+    </section>
+
+    <section class="comments-section">
+        <h2>Comments</h2>
+        <textarea id="commentInput" class="comment-box" placeholder="Write a comment..."></textarea>
+        <button onclick="postComment()">Post Comment</button>
+        <div id="commentSection"></div>
+    </section>
+
+    <script>
+        function likeVideo(button) {
+            button.textContent = "Liked ❤️";
+            button.style.backgroundColor = "gray";
+            button.disabled = true;
+        }
+
+        function shareVideo() {
+            alert("Shared successfully!");
+        }
+
+        function logProgress() {
+            const liftType = document.getElementById("liftType").value;
+            const liftWeight = document.getElementById("liftWeight").value;
+            if (liftType && liftWeight) {
+                const progressLog = document.getElementById("progressLog");
+                const newLog = document.createElement("li");
+                newLog.textContent = `${liftType}: ${liftWeight} kg`;
+                progressLog.appendChild(newLog);
+                document.getElementById("liftType").value = "";
+                document.getElementById("liftWeight").value = "";
+            } else {
+                alert("Please enter lift type and weight.");
+            }
+        }
+
+        function postComment() {
+            const commentInput = document.getElementById("commentInput").value;
+            if (commentInput.trim() !== "") {
+                const commentSection = document.getElementById("commentSection");
+                const newComment = document.createElement("p");
+                newComment.textContent = commentInput;
+                commentSection.appendChild(newComment);
+                document.getElementById("commentInput").value = "";
+            } else {
+                alert("Please write a comment before posting.");
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+
+</body>
+</html>
